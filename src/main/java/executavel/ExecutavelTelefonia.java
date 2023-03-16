@@ -12,33 +12,17 @@ public class ExecutavelTelefonia {
 
 	public static void main(String[] args) {
 		
-		Endereco endereco1 = new Endereco("88000123", "Nereu Ramos", "10", "Centro", "Florianópolis", "SC");
+		Telefone telefone = new Telefone("48", "96348863", true, true);
 		
-		EnderecoDAO salvadorDeEnderecos = new EnderecoDAO();
-		salvadorDeEnderecos.inserir(endereco1);
-		
-		Telefone telefone = new Telefone("48","96348863",true,true);
 		TelefoneDAO.inserir(telefone);
 		
-		if(endereco1.getId() != null) {
-			System.out.println("Novo endereço cadastrado");
-		}else {
-			System.out.println("Erro ao cadastrar endereço");
-		}
+		Telefone telefoneAtualizado = new Telefone(8, "48", "99995010", true, false);
 		
-		if(telefone.getId() != null)
-		{
-			System.out.println("Telefone cadastrado com sucesso! :)");
-		}
-		else
-		{
-			System.out.println("Erro ao cadastrar o telefone :(");
-		}
+		TelefoneDAO.atualizar(telefoneAtualizado);
 		
-		List<Telefone> telefonesDoSocrates = new ArrayList<Telefone>();
-		telefonesDoSocrates.add(telefone);
+		System.out.println(TelefoneDAO.consultarPorId(8));
 		
-		System.out.println(telefonesDoSocrates.get(0));
+		System.out.println(TelefoneDAO.excluirPorId(8));
 		
 //		Cliente pele = new Cliente("Edson Arantes", "11122233344", null, true, endereco1);
 //		Cliente socrates = new Cliente("Sócrates Brasileiro", "33322233344", telefonesDoSocrates, true, endereco1);
