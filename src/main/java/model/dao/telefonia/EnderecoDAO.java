@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.dao.Banco;
-import model.vo.telefonia.Endereco;
+import model.dao.telefonia.vo.Endereco;
 
 public class EnderecoDAO {
 

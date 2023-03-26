@@ -1,4 +1,4 @@
-package model.vo.telefonia;
+package model.dao.telefonia.vo;
 
 public class Endereco {
 	

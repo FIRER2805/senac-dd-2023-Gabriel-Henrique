@@ -1,12 +1,7 @@
 package executavel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.dao.telefonia.EnderecoDAO;
 import model.dao.telefonia.TelefoneDAO;
-import model.vo.telefonia.Endereco;
-import model.vo.telefonia.Telefone;
+import model.dao.telefonia.vo.Telefone;
 
 public class ExecutavelTelefonia {
 
