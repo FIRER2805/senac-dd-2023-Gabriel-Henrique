@@ -2,8 +2,8 @@ package model.dao.vacinas.vo;
 
 public enum TipoPessoa {
 	PESQUISADOR (1),
-	BEBIDA (2),
-	SOBREMESA (3);
+	VOLUNTARIO (2),
+	PUBLICO_GERAL (3);
 	
 	private int valor;
 	
