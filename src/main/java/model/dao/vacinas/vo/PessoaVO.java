@@ -24,6 +24,7 @@ public class PessoaVO {
 		this.sexo = sexo;
 		this.cpf = cpf;
 		this.tipo = tipo;
+		this.reacao = 0;
 	}
 
 	public PessoaVO(String nome, LocalDate dataNascimento, char sexo, String cpf, TipoPessoa tipo) {
@@ -33,6 +34,7 @@ public class PessoaVO {
 		this.sexo = sexo;
 		this.cpf = cpf;
 		this.tipo = tipo;
+		this.reacao = 0;
 	}
 
 	public int getId() {

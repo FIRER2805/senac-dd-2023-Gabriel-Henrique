@@ -15,7 +15,7 @@ public class VacinaDAO {
 		boolean deuBom = false;
 		
 		Connection conexao = Banco.getConnection();
-		String sql = " insert into vacina (paisDeOrigem, estagioDaPesquisa, dataDeInicioDaPesquisa, pesquisadorResponsavel) values (?, ?, ?, ?) ";
+		String sql = " insert into vacina (paisDeOrigem, estagioDaPesquisa, dataDeInicioDaPesquisa, pesquisador) values (?, ?, ?, ?) ";
 		PreparedStatement query = Banco.getPreparedStatementWithPk(conexao, sql);
 		
 		try {
@@ -23,7 +23,7 @@ public class VacinaDAO {
 			query.setString(1, vacina.getPaisDeOrigem());
 			query.setInt(2, vacina.getEstagioDaPesquisa());
 			query.setObject(3, vacina.getDataDeInicioDaPesquisa());
-			query.setString(4, vacina.getPesquisadorResponsavel());
+			query.setInt(4, vacina.getPesquisadorResponsavel().getId());
 			query.execute();
 			
 			ResultSet resultado = query.getGeneratedKeys();

@@ -38,6 +38,12 @@ CREATE TABLE `exemplos`.`endereco` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+CREATE TABLE `exemplos`.`tipo_pessoa`
+(
+ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+DESCRICAO VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE `exemplos`.`pessoa`
 (
 ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -46,14 +52,8 @@ DATA_NASCIMENTO DATE NOT NULL,
 SEXO CHAR(1) NOT NULL,
 CPF CHAR(11) NOT NULL,
 REACAO INT,
-TIPO INT NOT NULL,
-FOREIGN KEY(TIPO) REFERENCES exemplos.tipo_pessoa(ID)
-);
-
-CREATE TABLE `exemplos`.`tipo_pessoa`
-(
-ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-DESCRICAO VARCHAR(50) NOT NULL
+TIPO INT NULL,
+FOREIGN KEY(TIPO) REFERENCES exemplos.tipo_pessoa(ID) on delete set null
 );
 
 create table vacina(
@@ -62,6 +62,31 @@ idvacina int auto_increment primary key,
 paisDeOrigem varchar(45),
 estagioDaPesquisa int,
 dataDeInicioDaPesquisa datetime,
-pesquisadorResponsavel varchar(100)
-
+pesquisador int null,
+foreign key (pesquisador) references exemplos.pessoa(id) on delete set null
 );
+
+insert into tipo_pessoa(descricao) values("Pesquisador");
+insert into tipo_pessoa(descricao) values("Voluntários");
+insert into tipo_pessoa(descricao) values("Público geral");
+
+insert into pessoa()
+
+select * from tipo_pessoa;
+select * from pessoa;
+select * from vacina;
+
+select pessoa.id,
+	pessoa.nome,
+    pessoa.data_nascimento,
+    pessoa.sexo,
+    pessoa.cpf,
+    tipo_pessoa.descricao
+from pessoa left join tipo_pessoa on
+pessoa.tipo = tipo_pessoa.id;
+
+-- delete from tipo_pessoa where id = 1;
+
+-- drop table vacina;
+-- drop table pessoa;
+-- drop table tipo_pessoa;
