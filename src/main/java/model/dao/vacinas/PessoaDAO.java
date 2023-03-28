@@ -160,35 +160,29 @@ public class PessoaDAO {
 		String query = "select * from pessoa";
 		Connection conn = Banco.getConnection();
 		Statement stmt = Banco.getStatement(conn);
-		ResultSet resultadoQuery = null;
-		try 
-		{
-			
-			resultadoQuery = stmt.executeQuery(query);
-			
-			while(resultadoQuery.next());
+		ResultSet resultado = null;
+		
+		try {
+			resultado = stmt.executeQuery(query);
+			while(resultado.next())
 			{
 				PessoaVO pessoa = new PessoaVO();
-				pessoa.setId(resultadoQuery.getInt(1));
-				pessoa.setNome(resultadoQuery.getString(2));
-				pessoa.setDataNascimento(resultadoQuery.getDate(3).toLocalDate());
-				pessoa.setSexo(resultadoQuery.getString(4).charAt(0));
-				pessoa.setCpf(resultadoQuery.getString(5));
-				pessoa.setReacao(resultadoQuery.getInt(6));
-				pessoa.setTipo(TipoPessoa.getTipoPessoaPorValor(resultadoQuery.getInt(7)));
+				pessoa.setId(resultado.getInt(1));
+				pessoa.setNome(resultado.getString(2));
+				pessoa.setDataNascimento(resultado.getDate(3).toLocalDate());
+				pessoa.setSexo(resultado.getString(4).charAt(0));
+				pessoa.setCpf(resultado.getString(5));
+				pessoa.setReacao(resultado.getInt(6));
+				pessoa.setTipo(TipoPessoa.getTipoPessoaPorValor(resultado.getInt(7)));
 				pessoas.add(pessoa);
 			}
-		}
-		catch(SQLException e)
-		{
-			pessoas = null;
-			System.out.println("Erro no método pesquisarTodasAsPessoas da classe PessoaDAO");
-			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		finally 
 		{
-			Banco.closeResultSet(resultadoQuery);
-			Banco.closePreparedStatement(stmt);
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
 			Banco.closeConnection(conn);
 		}
 		return pessoas;

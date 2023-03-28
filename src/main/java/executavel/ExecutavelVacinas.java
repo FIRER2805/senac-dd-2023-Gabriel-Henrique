@@ -19,6 +19,11 @@ public class ExecutavelVacinas {
 		{
 			System.out.println(elemento.getId());
 			System.out.println(elemento.getNome());
+			System.out.println(elemento.getDataNascimento());
+			System.out.println(elemento.getSexo());
+			System.out.println(elemento.getCpf());
+			System.out.println(elemento.getReacao());
+			System.out.println(elemento.getTipo());
 		}
 		
 //		

@@ -45,17 +45,4 @@ public class VacinaDAO {
 		return deuBom;
 		
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
