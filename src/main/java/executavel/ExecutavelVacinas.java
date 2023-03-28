@@ -1,8 +1,8 @@
 package executavel;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import model.dao.vacinas.PessoaDAO;
 import model.dao.vacinas.VacinaDAO;
 import model.dao.vacinas.vo.EstagioPesquisaVacina;
 import model.dao.vacinas.vo.PessoaVO;
@@ -13,16 +13,19 @@ public class ExecutavelVacinas {
 
 	public static void main(String[] args) {
 		LocalDate dataNascimento = LocalDate.of(2004, 05, 28);
-		PessoaVO pessoa = new PessoaVO("Gabriel Henrique", dataNascimento,
+		PessoaVO pessoa = new PessoaVO(2,"Gabriel Henrique", dataNascimento,
 				'M',"00000000000",TipoPessoa.PUBLICO_GERAL);
-		VacinaVO vacina = new VacinaVO("Brasil", EstagioPesquisaVacina.INICIAL, LocalDate.now(), pessoa);
-		VacinaDAO.cadastrarVacina(vacina);
-				
-//		private int id;
-//		private String paisDeOrigem;
-//		private EstagioPesquisaVacina estagioDaPesquisa;
-//		private LocalDate dataDeInicioDaPesquisa;
-//		private PessoaVO pesquisadorResponsavel;
+		VacinaVO vacina = new VacinaVO(5,"brasil", EstagioPesquisaVacina.INICIAL, LocalDate.now(), pessoa);
+		List<VacinaVO> vacinas = VacinaDAO.pesquisarTodasAsVacinas();
+		
+		for(VacinaVO elemento: vacinas)
+		{
+			System.out.println(elemento.getId());
+			System.out.println(elemento.getPaisDeOrigem());
+			System.out.println(elemento.getDataDeInicioDaPesquisa());
+			System.out.println(elemento.getEstagioDaPesquisa());
+			System.out.println(elemento.getPesquisadorResponsavel().getNome());
+		}
 		
 //		for(PessoaVO elemento: PessoaDAO.pesquisarTodasAsPessoas())
 //		{

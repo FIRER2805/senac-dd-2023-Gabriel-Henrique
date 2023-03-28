@@ -56,25 +56,34 @@ TIPO INT NULL,
 FOREIGN KEY(TIPO) REFERENCES exemplos.tipo_pessoa(ID) on delete set null
 );
 
-create table vacina(
+create table EstagioPesquisaVacina
+(
+	id int not null auto_increment primary key,
+    descricao varchar(50)
+);
 
+create table vacina(
 idvacina int auto_increment primary key,
 paisDeOrigem varchar(45),
 estagioDaPesquisa int,
 dataDeInicioDaPesquisa datetime,
 pesquisador int null,
-foreign key (pesquisador) references exemplos.pessoa(id) on delete set null
+foreign key (pesquisador) references exemplos.pessoa(id) on delete set null,
+foreign key(estagioDaPesquisa) references exemplos.estagioPesquisaVacina(id) on delete set null
 );
 
 insert into tipo_pessoa(descricao) values("Pesquisador");
 insert into tipo_pessoa(descricao) values("Voluntários");
 insert into tipo_pessoa(descricao) values("Público geral");
 
-insert into pessoa()
+insert into EstagioPesquisaVacina(descricao) values("Inicial");
+insert into EstagioPesquisaVacina(descricao) values("Teste");
+insert into EstagioPesquisaVacina(descricao) values("Aplicaoção em massa");
 
 select * from tipo_pessoa;
 select * from pessoa;
 select * from vacina;
+select * from EstagioPesquisaVacina;
 
 select pessoa.id,
 	pessoa.nome,
@@ -87,6 +96,9 @@ pessoa.tipo = tipo_pessoa.id;
 
 -- delete from tipo_pessoa where id = 1;
 
+insert into vacina (paisDeOrigem, estagioDaPesquisa, dataDeInicioDaPesquisa, pesquisador) values ('Brasil', 1, '2023-03-28', 1);
+
 -- drop table vacina;
 -- drop table pessoa;
 -- drop table tipo_pessoa;
+-- drop table EstagioPesquisaVacina;

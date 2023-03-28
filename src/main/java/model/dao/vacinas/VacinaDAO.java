@@ -60,8 +60,8 @@ public class VacinaDAO {
 
 	public static boolean Atualizar(VacinaVO vacina) {
 		boolean retorno = false;
-		String update = "update vacina set paisDeOrigem = ?, EstagioDaPesquisa = ?, dataDeInicioDaPesquisa = ?, pesquisar = ?,"
-				+ " where id = ?";
+		String update = "update vacina set paisDeOrigem = ?, EstagioDaPesquisa = ?, dataDeInicioDaPesquisa = ?, pesquisador = ?"
+				+ " where idvacina = ?";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatement(conn, update);
 		try {
@@ -69,6 +69,7 @@ public class VacinaDAO {
 			pstmt.setInt(2, vacina.getEstagioDaPesquisa().getValor());
 			pstmt.setObject(3, vacina.getDataDeInicioDaPesquisa());
 			pstmt.setInt(4, vacina.getPesquisadorResponsavel().getId());
+			pstmt.setInt(5, vacina.getId());
 			retorno = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			retorno = false;
@@ -83,7 +84,7 @@ public class VacinaDAO {
 
 	public static boolean Deletar(VacinaVO vacina) {
 		boolean retorno = false;
-		String update = "delete from vacina where id = ?";
+		String update = "delete from vacina where idvacina = ?";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatement(conn, update);
 		try {
@@ -103,7 +104,7 @@ public class VacinaDAO {
 
 	public static VacinaVO pesquisarVacinaPorId(int id) {
 		VacinaVO retorno = new VacinaVO();
-		String query = "select * from pessoa where id = ?";
+		String query = "select * from vacina where idvacina = ?";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query);
 		ResultSet resultadoQuery = null;
@@ -115,8 +116,7 @@ public class VacinaDAO {
 			if (resultadoQuery.next()) {
 				retorno.setId(resultadoQuery.getInt(1));
 				retorno.setPaisDeOrigem(resultadoQuery.getString(2));
-				retorno.setEstagioDaPesquisa(
-						EstagioPesquisaVacina.pegarEstagioPesquisaPorValor(resultadoQuery.getInt(3)));
+				retorno.setEstagioDaPesquisa(EstagioPesquisaVacina.pegarEstagioPesquisaPorValor(resultadoQuery.getInt(3)));
 				retorno.setDataDeInicioDaPesquisa(resultadoQuery.getDate(4).toLocalDate());
 				retorno.setPesquisadorResponsavel(PessoaDAO.pesquisarPessoaPorId(id));
 			}
@@ -133,8 +133,8 @@ public class VacinaDAO {
 	}
 
 	public static List<VacinaVO> pesquisarTodasAsVacinas() {
-		ArrayList<VacinaVO> vacinas = new ArrayList<VacinaVO>();
-		String query = "select * from pessoa";
+		List<VacinaVO> vacinas = new ArrayList<VacinaVO>();
+		String query = "select * from vacina";
 		Connection conn = Banco.getConnection();
 		Statement stmt = Banco.getStatement(conn);
 		ResultSet resultado = null;
@@ -145,8 +145,7 @@ public class VacinaDAO {
 				VacinaVO vacina = new VacinaVO();
 				vacina.setId(resultado.getInt(1));
 				vacina.setPaisDeOrigem(resultado.getString(2));
-				vacina.setEstagioDaPesquisa(
-						EstagioPesquisaVacina.pegarEstagioPesquisaPorValor(resultado.getInt(3)));
+				vacina.setEstagioDaPesquisa(EstagioPesquisaVacina.pegarEstagioPesquisaPorValor(resultado.getInt(3)));
 				vacina.setDataDeInicioDaPesquisa(resultado.getDate(4).toLocalDate());
 				vacina.setPesquisadorResponsavel(PessoaDAO.pesquisarPessoaPorId(resultado.getInt(5)));
 				vacinas.add(vacina);
