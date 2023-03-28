@@ -6,7 +6,7 @@ public class VacinaVO {
 
 	private int id;
 	private String paisDeOrigem;
-	private int estagioDaPesquisa;
+	private EstagioPesquisaVacina estagioDaPesquisa;
 	private LocalDate dataDeInicioDaPesquisa;
 	private PessoaVO pesquisadorResponsavel;
 	
@@ -14,7 +14,7 @@ public class VacinaVO {
 		super();
 	}
 	
-	public VacinaVO(int id, String paisDeOrigem, int estagioDaPesquisa, LocalDate dataDeInicioDaPesquisa,
+	public VacinaVO(int id, String paisDeOrigem, EstagioPesquisaVacina estagioDaPesquisa, LocalDate dataDeInicioDaPesquisa,
 			PessoaVO pesquisadorResponsavel) {
 		super();
 		this.id = id;
@@ -24,7 +24,7 @@ public class VacinaVO {
 		this.pesquisadorResponsavel = pesquisadorResponsavel;
 	}
 	
-	public VacinaVO(String paisDeOrigem, int estagioDaPesquisa, LocalDate dataDeInicioDaPesquisa,
+	public VacinaVO(String paisDeOrigem, EstagioPesquisaVacina estagioDaPesquisa, LocalDate dataDeInicioDaPesquisa,
 			PessoaVO pesquisadorResponsavel) {
 		super();
 		this.paisDeOrigem = paisDeOrigem;
@@ -45,10 +45,10 @@ public class VacinaVO {
 	public void setPaisDeOrigem(String paisDeOrigem) {
 		this.paisDeOrigem = paisDeOrigem;
 	}
-	public int getEstagioDaPesquisa() {
+	public EstagioPesquisaVacina getEstagioDaPesquisa() {
 		return estagioDaPesquisa;
 	}
-	public void setEstagioDaPesquisa(int estagioDaPesquisa) {
+	public void setEstagioDaPesquisa(EstagioPesquisaVacina estagioDaPesquisa) {
 		this.estagioDaPesquisa = estagioDaPesquisa;
 	}
 	public LocalDate getDataDeInicioDaPesquisa() {

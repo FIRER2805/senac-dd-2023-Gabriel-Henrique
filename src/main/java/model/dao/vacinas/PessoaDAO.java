@@ -153,7 +153,6 @@ public class PessoaDAO {
 		return retorno;
 	}
 	
-	// este método não esta funcionando!
 	public static List<PessoaVO> pesquisarTodasAsPessoas()
 	{
 		ArrayList<PessoaVO> pessoas = new ArrayList<PessoaVO>();
