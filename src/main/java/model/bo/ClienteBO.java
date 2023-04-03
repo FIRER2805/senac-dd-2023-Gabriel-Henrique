@@ -3,6 +3,7 @@ package model.bo;
 import java.util.List;
 
 import model.dao.telefonia.ClienteDAO;
+import model.dao.telefonia.exceptions.ClienteComTelefoneException;
 import model.dao.telefonia.exceptions.CpfAlteradoException;
 import model.dao.telefonia.exceptions.CpfJaUtilizadoException;
 import model.dao.telefonia.exceptions.EnderecoInvalidoException;
@@ -16,9 +17,18 @@ public class ClienteBO {
 	 * Insere um novo cliente, mas faz validações que podem gerar exceções
 	 * @param novoCliente
 	 * @return o novoCliente inserido, com a PK gerada
+	 * @throws ClienteComTelefoneException 
 	 * @throws CpfJaUtilizadoException
 	 * @throws EnderecoInvalidoException
 	 */
+	
+	public boolean excluir(int id) throws ClienteComTelefoneException{
+		if(dao.consultarPorId(id).getTelefones().size() > 0){
+			throw new ClienteComTelefoneException("Cliente possui telefone");
+		}
+		return dao.excluir(id);
+	}
+	
 	public Cliente inserir(Cliente novoCliente) throws CpfJaUtilizadoException, 
 			EnderecoInvalidoException {
 		if(dao.cpfJaUtilizado(novoCliente.getCpf())) {
@@ -48,19 +58,6 @@ public class ClienteBO {
 		validarEndereco(clienteAlterado);
 
 		return dao.atualizar(clienteAlterado);
-	}
-	
-	/**
-	 * não deixar excluir cliente que possua telefone associado
-	 * Criar exceção ClienteComTelefoneException
-	 * Caso cliente possua telefone(s): lançar ClienteComTelefoneException
-	 * Caso contrário: chamar dao.excluir(id)
-	 * @param id
-	 * @return se excluiu ou não o cliente
-	 */
-	public boolean excluir(int id) {
-		
-		return false;
 	}
 	
 	public Cliente consultarPorId(int id) {

@@ -3,6 +3,7 @@ package controller.telefonia;
 import java.util.List;
 
 import model.bo.ClienteBO;
+import model.dao.telefonia.exceptions.ClienteComTelefoneException;
 import model.dao.telefonia.exceptions.CpfAlteradoException;
 import model.dao.telefonia.exceptions.CpfJaUtilizadoException;
 import model.dao.telefonia.exceptions.EnderecoInvalidoException;
@@ -24,8 +25,15 @@ public class ClienteController {
 		return bo.atualizar(clienteAlterado);
 	}
 	
-	public boolean excluir(int id) {
-		return bo.excluir(id);
+	public boolean excluir(int id) throws ClienteComTelefoneException {
+		try 
+		{
+			return bo.excluir(id);	
+		}
+		catch(ClienteComTelefoneException e)
+		{
+			throw e;
+		}
 	}
 	
 	public Cliente consultarPorId(int id) {
