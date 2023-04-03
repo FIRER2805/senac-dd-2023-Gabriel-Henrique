@@ -1,40 +1,31 @@
 package executavel;
 
-import model.dao.telefonia.TelefoneDAO;
-import model.dao.telefonia.vo.Telefone;
+import javax.swing.JOptionPane;
+
+import model.bo.ClienteBO;
+import model.dao.telefonia.exceptions.CpfJaUtilizadoException;
+import model.dao.telefonia.exceptions.EnderecoInvalidoException;
+import model.dao.telefonia.vo.Cliente;
 
 public class ExecutavelTelefonia {
 
 	public static void main(String[] args) {
 		
-		Telefone telefone = new Telefone("48", "96348863", true, true);
+		ClienteBO clienteBO = new ClienteBO();
 		
-		TelefoneDAO.inserir(telefone);
-		
-		Telefone telefoneAtualizado = new Telefone(8, "48", "99995010", true, false);
-		
-		TelefoneDAO.atualizar(telefoneAtualizado);
-		
-		System.out.println(TelefoneDAO.consultarPorId(8));
-		
-		System.out.println(TelefoneDAO.excluirPorId(8));
-		
-//		Cliente pele = new Cliente("Edson Arantes", "11122233344", null, true, endereco1);
-//		Cliente socrates = new Cliente("Sócrates Brasileiro", "33322233344", telefonesDoSocrates, true, endereco1);
-//		
-//		List<Cliente> clientes = new ArrayList<Cliente>();
-//		clientes.add(pele);
-//		clientes.add(socrates);
-//		
-//		System.out.println("------------ Clientes da firma ------------");
-//		for(Cliente c: clientes) {
-//			System.out.println(c.toString());
-//		}
-//		
-//		for(int i=0; i < clientes.size(); i++) {
-//			Cliente c = clientes.get(i);
-//			System.out.println(c.toString());
-//		}
+		Cliente novoCliente = new Cliente();
+		novoCliente.setNome("Mario Jorge");
+		novoCliente.setCpf("10122233311");
+		novoCliente.setAtivo(true);
+
+		try {
+			clienteBO.inserir(novoCliente);
+		} catch (CpfJaUtilizadoException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} catch (EnderecoInvalidoException e) {
+			JOptionPane.showMessageDialog(null, "Erros acontecem. Causa: " 
+						+ e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 		
 	}
 }

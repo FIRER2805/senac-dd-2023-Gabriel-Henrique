@@ -11,145 +11,157 @@ import model.dao.Banco;
 import model.dao.telefonia.vo.Telefone;
 
 public class TelefoneDAO {
-	
-	public static void inserir(Telefone telefone) 
-	{
-		try 
-		{
-			String insert = "insert into telefone(DDD,NUMERO,ATIVO,MOVEL) "
-					+ "values (?,?,?,?)";
-			Connection conexao = Banco.getConnection();
-			PreparedStatement query = Banco.getPreparedStatementWithPk(conexao, insert);
+
+	/**
+	 * Insere um novo telefone no banco
+	 * @param novoTelefone o telefone a ser persistido
+	 * @return o telefone inserido com a chave primária gerada
+	 */
+	public Telefone inserir(Telefone novoTelefone) {
+		//Conectar ao banco
+		Connection conexao = Banco.getConnection();
+		String sql =  " INSERT INTO TELEFONE (ID_CLIENTE, DDD, NUMERO, ATIVO, MOVEL) "
+				    + " VALUES (?,?,?,?,?) ";
+
+		PreparedStatement query = Banco.getPreparedStatementWithPk(conexao, sql);
 			
-			query.setString(1, telefone.getDdd());
-			query.setString(2, telefone.getNumero());
-			query.setBoolean(3, telefone.isAtivo());
-			query.setBoolean(4, telefone.isMovel());
-			if(telefone.getIdCliente() != null)
-			{
-				query.setInt(5, telefone.getIdCliente());
+		//executar o INSERT
+		try {
+			query.setInt(1, novoTelefone.getIdCliente());
+			query.setString(2, novoTelefone.getDdd());
+			query.setString(3, novoTelefone.getNumero());
+			query.setBoolean(4, novoTelefone.isAtivo());
+			query.setBoolean(5, novoTelefone.isMovel());
+			query.execute();
+			
+			//Preencher o id gerado no banco no objeto
+			ResultSet resultado = query.getGeneratedKeys();
+			if(resultado.next()) {
+				novoTelefone.setId(resultado.getInt(1));
 			}
 			
-			int affectedColumns = query.executeUpdate();
-			ResultSet keys = query.getGeneratedKeys();
-			
-			if(affectedColumns > 0)
-			{
-				if(keys.next())
-				{
-					telefone.setId(keys.getInt(1));
-				}
-			}
-			
-			Banco.closeResultSet(keys);
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir telefone. "
+					+ "\nCausa: " + e.getMessage());
+		}finally {
+			//Fechar a conexão
 			Banco.closePreparedStatement(query);
 			Banco.closeConnection(conexao);
-			
-		} catch(SQLException e)
-		{
-			System.out.println("Erro no método inserir da classe TelefoneDAO");
-			System.out.println(e.getMessage());
 		}
+		
+		return novoTelefone;
 	}
 	
-	public static boolean atualizar(Telefone telefone)
-	{
-		boolean retorno = false;
-		
-//		private Integer id;
-//		private Integer idCliente;
-//		private String ddd;
-//		private String numero;
-//		private boolean ativo;
-//		private boolean movel;
-		
-		String update = "update telefone set ddd = ?,"
-				+ " numero = ?, ativo = ?, movel = ? "
-				+ "where id = ?";
-		Connection conn = Banco.getConnection();
-		PreparedStatement pstmt = Banco.getPreparedStatement(conn, update);
+	public boolean atualizar(Telefone telefoneEditado) {
+		boolean atualizou = false;
+		Connection conexao = Banco.getConnection();
+		String sql = " UPDATE TELEFONE "
+				   + " SET ID_CLIENTE = ?, DDD = ?, NUMERO  = ?, "
+				   + "     ATIVO = ?, MOVEL = ?"
+				   + " WHERE ID = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
 		try {
-			pstmt.setString(1,telefone.getDdd());
-			pstmt.setString(2,telefone.getNumero());
-			pstmt.setBoolean(3,telefone.isAtivo());
-			pstmt.setBoolean(4,telefone.isMovel());
-			pstmt.setInt(5,telefone.getId());
+			query.setInt(1, telefoneEditado.getIdCliente());
+			query.setString(2, telefoneEditado.getDdd());
+			query.setString(3, telefoneEditado.getNumero());
+			query.setBoolean(4, telefoneEditado.isAtivo());
+			query.setBoolean(5, telefoneEditado.isMovel());
+			query.setInt(6, telefoneEditado.getId());
 			
-			int affectedCollumns = pstmt.executeUpdate();
-			
-			retorno = affectedCollumns > 0;
-		} catch (SQLException e) {
-			System.out.println("Erro no método atualizar da classe TelefoneDAO");
-			System.out.println(e.getMessage());
+			int quantidadeLinhasAtualizadas = query.executeUpdate();
+			atualizou = quantidadeLinhasAtualizadas > 0;
+		} catch (SQLException excecao) {
+			System.out.println("Erro ao atualizar telefone. "
+					+ "\n Causa: " + excecao.getMessage());
+		}finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
 		}
-		finally 
-		{
-			Banco.closePreparedStatement(pstmt);
-			Banco.closeConnection(conn);
-		}
-		return retorno;
-	}
-	
-	public static Telefone consultarPorId(int id)
-	{
-		Telefone telefoneRetornado = new Telefone();
-		String query = "select * from telefone where id = ?";
-		Connection conn = Banco.getConnection();
-		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query);
-		ResultSet resultado = null;
-		try 
-		{
-			pstmt.setInt(1, id);
-			resultado = pstmt.executeQuery();
-			if(resultado.next())
-			{
-				telefoneRetornado.setId(resultado.getInt("id"));
-				telefoneRetornado.setDdd(resultado.getString("ddd"));
-				telefoneRetornado.setNumero(resultado.getString("numero"));
-				telefoneRetornado.setAtivo(resultado.getBoolean("ativo"));
-				telefoneRetornado.setMovel(resultado.getBoolean("movel"));
-				telefoneRetornado.setIdCliente(resultado.getInt("id_cliente"));
-			}
-		}
-		catch(SQLException e)
-		{
-			System.out.println("Erro no método consultarPorId da classe TelefoneDAO");
-			System.out.println(e.getMessage());
-		}
-		finally 
-		{
-			Banco.closeResultSet(resultado);
-			Banco.closePreparedStatement(pstmt);
-			Banco.closeConnection(conn);
-		}
-		return telefoneRetornado;
-	}
-	
-	public static boolean excluirPorId(int id)
-	{
-		String delete = "delete from telefone where id = ?";
-		Connection conn = Banco.getConnection();
-		PreparedStatement stmt = Banco.getPreparedStatement(conn, delete);
-		boolean retorno = false;
 		
-		try 
-		{
-			stmt.setInt(1, id);
-			retorno = stmt.executeUpdate() > 0;
-		}
-		catch(SQLException e)
-		{
-			System.out.println("Erro no método excluirPorId da clase TelefoneDAO");
-			System.out.println(e.getMessage());
-		}
-		finally 
-		{
-			Banco.closePreparedStatement(stmt);
-			Banco.closeConnection(conn);
-		}
-		return retorno;
+		return atualizou;
 	}
 	
+	public Telefone consultarPorId(int id) {
+		Telefone telefoneConsultado = null;
+		Connection conexao = Banco.getConnection();
+		String sql =  " SELECT * FROM TELEFONE "
+				    + " WHERE ID = ?";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			query.setInt(1, id);
+			ResultSet resultado = query.executeQuery();
+			
+			if(resultado.next()) {
+				telefoneConsultado = converterDeResultSetParaEntidade(resultado);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar telefone com id: + " + id 
+								+ "\n Causa: " + e.getMessage());	
+		}finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		
+		return telefoneConsultado;
+	}
+	
+	public boolean excluir(int id) {
+		boolean excluiu = false;
+		
+		Connection conexao = Banco.getConnection();
+		String sql = " DELETE FROM TELEFONE "
+				   + " WHERE ID = ? ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		try {
+			query.setInt(1, id);
+			
+			int quantidadeLinhasAtualizadas = query.executeUpdate();
+			excluiu = quantidadeLinhasAtualizadas > 0;
+		} catch (SQLException excecao) {
+			System.out.println("Erro ao excluir telefone. "
+					+ "\n Causa: " + excecao.getMessage());
+		}finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		return excluiu;
+	}
+	
+	public List<Telefone> consultarTodos() {
+		List<Telefone> telefones = new ArrayList<Telefone>();
+		Connection conexao = Banco.getConnection();
+		String sql =  " SELECT * FROM TELEFONE ";
+		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
+		
+		try {
+			ResultSet resultado = query.executeQuery();
+			while(resultado.next()) {
+				Telefone telefoneConsultado = converterDeResultSetParaEntidade(resultado);
+				telefones.add(telefoneConsultado);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar todos os telefones" 
+								+ "\n Causa: " + e.getMessage());	
+		} finally {
+			Banco.closePreparedStatement(query);
+			Banco.closeConnection(conexao);
+		}
+		
+		return telefones;
+	}
+	
+	private Telefone converterDeResultSetParaEntidade(ResultSet resultado) throws SQLException {
+		Telefone telefoneConsultado = new Telefone(); 
+		telefoneConsultado.setId(resultado.getInt("id"));
+		telefoneConsultado.setIdCliente(resultado.getInt("id_cliente"));
+		telefoneConsultado.setDdd(resultado.getString("ddd"));
+		telefoneConsultado.setNumero(resultado.getString("numero"));
+		telefoneConsultado.setAtivo(resultado.getBoolean("ativo"));
+		telefoneConsultado.setMovel(resultado.getBoolean("movel"));
+		return telefoneConsultado;
+	}
+
 	public List<Telefone> consultarPorIdCliente(Integer id) {
 		List<Telefone> telefones = new ArrayList<Telefone>();
 		Connection conexao = Banco.getConnection();
@@ -175,14 +187,47 @@ public class TelefoneDAO {
 		return telefones;
 	}
 	
-	private Telefone converterDeResultSetParaEntidade(ResultSet resultado) throws SQLException {
-		Telefone telefoneConsultado = new Telefone(); 
-		telefoneConsultado.setId(resultado.getInt("id"));
-		telefoneConsultado.setIdCliente(resultado.getInt("id_cliente"));
-		telefoneConsultado.setDdd(resultado.getString("ddd"));
-		telefoneConsultado.setNumero(resultado.getString("numero"));
-		telefoneConsultado.setAtivo(resultado.getBoolean("ativo"));
-		telefoneConsultado.setMovel(resultado.getBoolean("movel"));
-		return telefoneConsultado;
+
+	/**
+	 * Associa e ativa uma lista de telefones a um determinado cliente.
+	 * 
+	 * @param dono      o cliente que possui os telefones
+	 * @param telefones a lista de telefones
+	 */
+	public void ativarTelefones(Integer idDono, List<Telefone> telefones) {
+		for (Telefone telefoneDoCliente : telefones) {
+			telefoneDoCliente.setIdCliente(idDono);
+			telefoneDoCliente.setAtivo(true);
+			if (telefoneDoCliente.getId() > 0) {
+				// UPDATE no Telefone
+				this.atualizar(telefoneDoCliente);
+			} else {
+				// INSERT no Telefone
+				this.inserir(telefoneDoCliente);
+			}
+		}
+	}
+
+	/**
+	 * Desativa todos os telefones de um determinado cliente.
+	 * 
+	 * @param idCliente a chave primária do cliente
+	 */
+	public void desativarTelefones(int idCliente) {
+		Connection conn = Banco.getConnection();
+		String sql = " UPDATE EXEMPLOS.TELEFONE "
+				   + " SET id_cliente=NULL, ativo=0 "
+				   + " WHERE ID_CLIENTE=? ";
+
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+
+		try {
+			stmt.setInt(1, idCliente);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Erro ao desativar telefone.");
+			System.out.println("Erro: " + e.getMessage());
+		}
 	}
 }
+
