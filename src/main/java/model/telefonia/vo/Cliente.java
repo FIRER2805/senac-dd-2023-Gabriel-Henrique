@@ -1,4 +1,4 @@
-package model.dao.telefonia.vo;
+package model.telefonia.vo;
 
 import java.util.List;
 

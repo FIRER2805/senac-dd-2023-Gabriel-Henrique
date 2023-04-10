@@ -2,8 +2,8 @@ package controller.telefonia;
 
 import java.util.List;
 
-import model.bo.TelefoneBO;
-import model.dao.telefonia.vo.Telefone;
+import model.telefonia.bo.TelefoneBO;
+import model.telefonia.vo.Telefone;
 
 public class TelefoneController {
 

@@ -1,11 +1,11 @@
-package model.bo;
+package model.telefonia.bo;
 
 import java.util.List;
 
-import model.dao.telefonia.ClienteDAO;
-import model.dao.telefonia.EnderecoDAO;
-import model.dao.telefonia.exceptions.EnderecoInvalidoException;
-import model.dao.telefonia.vo.Endereco;
+import model.telefonia.dao.ClienteDAO;
+import model.telefonia.dao.EnderecoDAO;
+import model.telefonia.exceptions.EnderecoInvalidoException;
+import model.telefonia.vo.Endereco;
 
 public class EnderecoBO {
 

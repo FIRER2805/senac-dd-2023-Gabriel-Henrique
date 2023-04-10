@@ -1,31 +1,45 @@
 package executavel;
 
-import javax.swing.JOptionPane;
+import java.time.LocalDate;
 
-import model.bo.ClienteBO;
-import model.dao.telefonia.exceptions.CpfJaUtilizadoException;
-import model.dao.telefonia.exceptions.EnderecoInvalidoException;
-import model.dao.telefonia.vo.Cliente;
+import model.vacinas.dao.PessoaDAO;
+import model.vacinas.dao.VacinaDAO;
+import model.vacinas.vo.PessoaVO;
+import model.vacinas.vo.TipoPessoa;
 
 public class ExecutavelTelefonia {
 
 	public static void main(String[] args) {
 		
-		ClienteBO clienteBO = new ClienteBO();
+//		private int id;
+//		private String nome;
+//		private LocalDate dataNascimento;
+//		private char sexo;
+//		private String cpf;
+//		private int reacao;
+//		private TipoPessoa tipo;
 		
-		Cliente novoCliente = new Cliente();
-		novoCliente.setNome("Mario Jorge");
-		novoCliente.setCpf("10122233311");
-		novoCliente.setAtivo(true);
-
-		try {
-			clienteBO.inserir(novoCliente);
-		} catch (CpfJaUtilizadoException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		} catch (EnderecoInvalidoException e) {
-			JOptionPane.showMessageDialog(null, "Erros acontecem. Causa: " 
-						+ e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		
+		PessoaVO pessoa = new PessoaVO("Gabriel", LocalDate.of(2004, 5, 28), 'M', "06867968961", TipoPessoa.PUBLICO_GERAL);
+		
+		if(PessoaDAO.inserir(pessoa))
+		{
+			System.out.println("inseriu com sucesso! aqui esta o id gerado: " + pessoa.getId());
 		}
-		
+		else 
+		{
+			System.out.println("não foi possivel inserir :(");
+		}
+		/*
+		 * try { novoCliente = controladorDeClientes.inserir(novoCliente);
+		 * 
+		 * JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso! Id gerado: "
+		 * + novoCliente.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		 * 
+		 * //Exemplo de captura de múltiplas exceções, válido apenas a partir do Java
+		 * versão 7 } catch (CpfJaUtilizadoException | =EnderecoInvalidoException |
+		 * CampoInvalidoException e) { JOptionPane.showMessageDialog(null,
+		 * e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE); }
+		 */
 	}
 }

@@ -1,4 +1,4 @@
-package model.dao.vacinas.vo;
+package model.vacinas.vo;
 
 public enum TipoPessoa {
 	PESQUISADOR (1),

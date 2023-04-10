@@ -1,9 +1,9 @@
-package model.bo;
+package model.telefonia.bo;
 
 import java.util.List;
 
-import model.dao.telefonia.TelefoneDAO;
-import model.dao.telefonia.vo.Telefone;
+import model.telefonia.dao.TelefoneDAO;
+import model.telefonia.vo.Telefone;
 
 public class TelefoneBO {
 

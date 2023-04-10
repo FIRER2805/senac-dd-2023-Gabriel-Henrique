@@ -1,19 +1,16 @@
-package model.dao.vacinas;
+package model.vacinas.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dao.Banco;
-import model.dao.vacinas.vo.EstagioPesquisaVacina;
-import model.dao.vacinas.vo.PessoaVO;
-import model.dao.vacinas.vo.TipoPessoa;
-import model.dao.vacinas.vo.VacinaVO;
+import model.Banco;
+import model.vacinas.vo.EstagioPesquisaVacina;
+import model.vacinas.vo.VacinaVO;
 
 public class VacinaDAO {
 

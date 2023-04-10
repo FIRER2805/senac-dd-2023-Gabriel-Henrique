@@ -1,4 +1,4 @@
-package model.dao.telefonia.exceptions;
+package model.telefonia.exceptions;
 
 public class EnderecoInvalidoException extends Exception {
 	

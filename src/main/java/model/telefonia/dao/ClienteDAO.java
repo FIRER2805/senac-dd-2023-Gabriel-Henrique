@@ -1,4 +1,4 @@
-package model.dao.telefonia;
+package model.telefonia.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dao.Banco;
-import model.dao.telefonia.vo.Cliente;
-import model.dao.telefonia.vo.Endereco;
+import model.Banco;
+import model.telefonia.vo.Cliente;
+import model.telefonia.vo.Endereco;
 
 public class ClienteDAO {
 	

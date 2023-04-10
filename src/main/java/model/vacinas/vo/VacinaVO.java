@@ -1,4 +1,4 @@
-package model.dao.vacinas.vo;
+package model.vacinas.vo;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package model.dao.vacinas;
+package model.vacinas.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dao.Banco;
-import model.dao.vacinas.vo.PessoaVO;
-import model.dao.vacinas.vo.TipoPessoa;
+import model.Banco;
+import model.vacinas.vo.PessoaVO;
+import model.vacinas.vo.TipoPessoa;
 
 public class PessoaDAO {
 	
