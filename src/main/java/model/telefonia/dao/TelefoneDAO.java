@@ -229,5 +229,28 @@ public class TelefoneDAO {
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
+	
+	public boolean verificarExistenciaTelefone(int id)
+	{
+		boolean retorno = false;
+		String query = "select * from telefone where id = ?";
+		Connection conn = Banco.getConnection();
+		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query);
+		try {
+			pstmt.setInt(1, id);
+			retorno = pstmt.execute();
+		} 
+		catch(SQLException e)
+		{
+			System.out.println("Erro no método verificarExistenciaTelefone da classe TelefoneDAO");
+			System.out.println(e.getMessage());
+		}
+		finally 
+		{
+			Banco.closePreparedStatement(pstmt);
+			Banco.closeConnection(conn);
+		}
+		return retorno;
+	}
 }
 

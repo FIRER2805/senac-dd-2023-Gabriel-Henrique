@@ -3,14 +3,17 @@ package controller.telefonia;
 import java.util.List;
 
 import model.telefonia.bo.TelefoneBO;
+import model.telefonia.exceptions.CampoInvalidoException;
+import model.telefonia.exceptions.TelefoneJaExiste;
+import model.telefonia.vo.Cliente;
 import model.telefonia.vo.Telefone;
 
 public class TelefoneController {
 
 	private TelefoneBO bo = new TelefoneBO();
 	
-	public Telefone inserir(Telefone novoTelefone) {
-		//TODO validar o preenchimento dos campos obrigatórios
+	public Telefone inserir(Telefone novoTelefone) throws CampoInvalidoException, TelefoneJaExiste {
+		this.validarCamposObrigatorios(novoTelefone);
 		return bo.inserir(novoTelefone);
 	}
 	
@@ -29,5 +32,22 @@ public class TelefoneController {
 	
 	public List<Telefone> consultarTodos() {
 		return bo.consultarTodos();
+	}
+	
+	private void validarCamposObrigatorios(Telefone t) throws CampoInvalidoException {
+		String mensagemValidacao = "";
+		
+		if(t.getDdd() == null || t.getDdd().trim().length() != 2 || !t.getDdd().matches("[0-9]+")) {
+			mensagemValidacao += "DDD inválido \n";
+		}
+		
+		if(t.getNumero() == null || t.getDdd().trim().length() != 8 || !t.getDdd().matches("[0-9]+"))
+		{
+			mensagemValidacao += "Numero inválido \n";
+		}	
+		
+		if(!mensagemValidacao.isEmpty()) {
+			throw new CampoInvalidoException(mensagemValidacao);
+		}
 	}
 }

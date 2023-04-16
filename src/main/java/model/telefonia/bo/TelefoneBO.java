@@ -3,15 +3,19 @@ package model.telefonia.bo;
 import java.util.List;
 
 import model.telefonia.dao.TelefoneDAO;
+import model.telefonia.exceptions.TelefoneJaExiste;
 import model.telefonia.vo.Telefone;
 
 public class TelefoneBO {
 
 	private TelefoneDAO dao = new TelefoneDAO();
 	
-	public Telefone inserir(Telefone novoTelefone) {
+	public Telefone inserir(Telefone novoTelefone) throws TelefoneJaExiste {
 		novoTelefone.setAtivo(novoTelefone.getIdCliente() != null);
-		
+		if(dao.verificarExistenciaTelefone(novoTelefone.getId()))
+		{
+			throw new TelefoneJaExiste("telefone já existe!");
+		}
 		return dao.inserir(novoTelefone);
 	}
 	
