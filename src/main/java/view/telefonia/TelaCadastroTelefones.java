@@ -3,9 +3,11 @@ package view.telefonia;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,9 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controller.telefonia.ClienteController;
 import controller.telefonia.TelefoneController;
 import model.telefonia.exceptions.CampoInvalidoException;
 import model.telefonia.exceptions.TelefoneJaExiste;
+import model.telefonia.vo.Cliente;
 import model.telefonia.vo.Telefone;
 
 public class TelaCadastroTelefones extends JFrame {
@@ -80,8 +84,19 @@ public class TelaCadastroTelefones extends JFrame {
 		contentPane.add(cbxMovel);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(166, 103, 86, 29);
+		btnSalvar.setBounds(155, 129, 86, 29);
 		contentPane.add(btnSalvar);
+		
+		ClienteController clienteController = new ClienteController();
+		List<Cliente> clientes = clienteController.consultarTodos();
+		
+		final JComboBox cbClientes = new JComboBox(clientes.toArray());
+		cbClientes.setBounds(49, 83, 86, 22);
+		contentPane.add(cbClientes);
+		
+		JLabel lblCliente = new JLabel("Cliente:");
+		lblCliente.setBounds(7, 87, 46, 14);
+		contentPane.add(lblCliente);
 		btnSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Telefone telefone = new Telefone();
@@ -89,6 +104,7 @@ public class TelaCadastroTelefones extends JFrame {
 					telefone.setMovel(cbxMovel.isSelected());
 					telefone.setNumero(txtNumero.getText());
 					telefone.setAtivo(false);
+					telefone.setIdCliente(cbClientes.getSelectedIndex() + 1);
 					try {
 						controller.inserir(telefone);
 					} catch (CampoInvalidoException e1) {

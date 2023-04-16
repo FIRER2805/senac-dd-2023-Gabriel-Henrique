@@ -230,15 +230,15 @@ public class TelefoneDAO {
 		}
 	}
 	
-	public boolean verificarExistenciaTelefone(int id)
+	public boolean verificarExistenciaTelefone(String numero)
 	{
 		boolean retorno = false;
-		String query = "select * from telefone where id = ?";
+		String query = "select * from telefone where numero = ?";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query);
 		try {
-			pstmt.setInt(1, id);
-			retorno = pstmt.execute();
+			pstmt.setString(1, numero);
+			retorno = pstmt.executeQuery().next();
 		} 
 		catch(SQLException e)
 		{

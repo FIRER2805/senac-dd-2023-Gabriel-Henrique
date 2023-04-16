@@ -41,7 +41,7 @@ public class TelefoneController {
 			mensagemValidacao += "DDD inválido \n";
 		}
 		
-		if(t.getNumero() == null || t.getDdd().trim().length() != 8 || !t.getDdd().matches("[0-9]+"))
+		if(t.getNumero() == null || t.getNumero().trim().length() != 8 || !t.getNumero().matches("[0-9]+"))
 		{
 			mensagemValidacao += "Numero inválido \n";
 		}	

@@ -12,7 +12,7 @@ public class TelefoneBO {
 	
 	public Telefone inserir(Telefone novoTelefone) throws TelefoneJaExiste {
 		novoTelefone.setAtivo(novoTelefone.getIdCliente() != null);
-		if(dao.verificarExistenciaTelefone(novoTelefone.getId()))
+		if(dao.verificarExistenciaTelefone(novoTelefone.getNumero()))
 		{
 			throw new TelefoneJaExiste("telefone já existe!");
 		}
