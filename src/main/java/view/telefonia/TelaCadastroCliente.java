@@ -126,8 +126,16 @@ public class TelaCadastroCliente {
 					
 					JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!", 
 							"Sucesso", JOptionPane.INFORMATION_MESSAGE);
-				} catch (CpfJaUtilizadoException | EnderecoInvalidoException | CampoInvalidoException excecao) {
+				} catch (CpfJaUtilizadoException excecao) {
 					JOptionPane.showMessageDialog(null, excecao.getMessage(), 
+							"Erro", JOptionPane.ERROR_MESSAGE); 
+				} catch (EnderecoInvalidoException segundaExcecao) 
+				{
+					JOptionPane.showMessageDialog(null, segundaExcecao.getMessage(), 
+							"Erro", JOptionPane.ERROR_MESSAGE); 
+				}catch(CampoInvalidoException terceiraExcecao)
+				{
+					JOptionPane.showMessageDialog(null, terceiraExcecao.getMessage(), 
 							"Erro", JOptionPane.ERROR_MESSAGE); 
 				}
 			}
