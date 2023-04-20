@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import controller.telefonia.EnderecoController;
 import model.telefonia.exceptions.CampoInvalidoException;
 import model.telefonia.vo.Endereco;
+import javax.swing.DefaultComboBoxModel;
 
 public class TelaCadastroEndereco {
 
@@ -119,6 +120,7 @@ public class TelaCadastroEndereco {
 		
 		cbEstado = new JComboBox(estados);
 		cbEstado.setToolTipText("Selecione");
+		cbEstado.setModel(new DefaultComboBoxModel(new String[] {"PR", "RS", "SC"}));
 		cbEstado.setSelectedIndex(-1);
 		cbEstado.setBounds(60, 136, 300, 22);
 		frmCadastroDeEndereco.getContentPane().add(cbEstado);
@@ -131,6 +133,7 @@ public class TelaCadastroEndereco {
 				endereco.setRua(txtRua.getText());
 				endereco.setNumero(txtNumero.getText());
 				endereco.setCidade(txtCidade.getText());
+				endereco.setBairro(txtBairro.getText());
 				endereco.setEstado((String) cbEstado.getSelectedItem());
 						
 				EnderecoController controller = new EnderecoController();
